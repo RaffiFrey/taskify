@@ -1,12 +1,27 @@
-import { OrgControl } from "./_components/OrgControl";
+import { OrgControl } from "./_components/org-control";
+import {startCase} from "lodash";
+import {auth} from "@clerk/nextjs";
 
-const OrganizationIdLayout = ({ children } : {children: React.ReactNode}) => {
+export async function generateMetadata() {
+    const { orgSlug } = auth();
+
+    return {
+        title: startCase(orgSlug || "Organization"),
+    }
+}
+
+
+const OrganizationIdLayout = ({
+                                  children
+                              }: {
+    children: React.ReactNode;
+}) => {
     return (
-      <>
-        <OrgControl />
-        {children}
-      </>
+        <>
+            <OrgControl />
+            {children}
+        </>
     );
-  }
-  
-  export default OrganizationIdLayout;
+};
+
+export default OrganizationIdLayout;
